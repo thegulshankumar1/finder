@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Code Finder Login Page</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for a clean, professional look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl border border-gray-100">
+
+        <!-- Header Title -->
+        <h1 class="text-3xl font-extrabold text-gray-900 text-center mb-6 border-b pb-4">
+            Item Code Finder Login Page
+        </h1>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-6">
+
+            <!-- User ID Input -->
+            <div>
+                <label for="userId" class="block text-sm font-medium text-gray-700 mb-1">User ID</label>
+                <input
+                    type="text"
+                    id="userId"
+                    name="userId"
+                    required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                    placeholder="Enter your User ID"
+                >
+            </div>
+
+            <!-- Password Input -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                    placeholder="Enter your password"
+                >
+            </div>
+
+            <!-- Error Message Box -->
+            <div id="errorMessage" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative text-sm" role="alert">
+                <strong class="font-bold">Error:</strong>
+                <span id="errorText" class="block sm:inline">Invalid User ID or Password.</span>
+            </div>
+
+            <!-- Login Button -->
+            <div>
+                <button
+                    type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out active:bg-blue-800"
+                >
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const ADMIN_ID = 'APIM';
+        const ADMIN_PASSWORD = 'APIMECH';
+        // FIXED: Enclosed the URL in quotes to resolve the SyntaxError.
+        const HOMEPAGE_URL = 'https://thegulshankumar1.github.io/codefinder/'; // Actual home page link
+
+        // --- DOM Elements ---
+        const loginForm = document.getElementById('loginForm');
+        const userIdInput = document.getElementById('userId');
+        const passwordInput = document.getElementById('password');
+        const errorMessageDiv = document.getElementById('errorMessage');
+        const errorTextSpan = document.getElementById('errorText');
+
+        /**
+         * Hides the error message box.
+         */
+        function hideError() {
+            errorMessageDiv.classList.add('hidden');
+        }
+
+        /**
+         * Displays an error message in the message box.
+         * @param {string} message - The message to display.
+         */
+        function showErrorMessage(message) {
+            errorTextSpan.textContent = message;
+            errorMessageDiv.classList.remove('hidden');
+        }
+
+        /**
+         * Handles the form submission and performs authentication.
+         * @param {Event} event - The form submission event.
+         */
+        loginForm.addEventListener('submit', function(event) {
+            // Prevent the default form submission (which would refresh the page)
+            event.preventDefault();
+            
+            hideError();
+
+            const enteredUserId = userIdInput.value.trim();
+            const enteredPassword = passwordInput.value.trim();
+
+            // 1. Check if the entered credentials match the hardcoded credentials
+            if (enteredUserId === ADMIN_ID && enteredPassword === ADMIN_PASSWORD) {
+                // Login Successful!
+                
+                // Show a success message briefly (optional, but good UX)
+                // Note: We are using the same error box for success feedback temporarily
+                // errorMessageDiv.classList.remove('bg-red-100', 'border-red-400', 'text-red-700');
+                // errorMessageDiv.classList.add('bg-green-100', 'border-green-400', 'text-green-700');
+                // showErrorMessage('Login successful! Redirecting...');
+                
+                // 2. Redirect to the specified home page URL
+                // We use a short delay to allow the user to see the success message
+                setTimeout(() => {
+                        window.location.replace(HOMEPAGE_URL);
+                }, 1000); 
+                
+
+            } else {
+                // Login Failed!
+                
+                // Reset the error box to show an error style
+                // errorMessageDiv.classList.remove('bg-green-100', 'border-green-400', 'text-green-700');
+                // errorMessageDiv.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
+                showErrorMessage('Invalid User ID or Password. Please try again.');
+                
+                // Clear the password field for security
+                passwordInput.value = '';
+            }
+        });
+        
+        // Focus on the User ID field on load
+        window.onload = () => {
+            userIdInput.focus();
+        };
+
+    </script>
+
+</body>
+</html>
