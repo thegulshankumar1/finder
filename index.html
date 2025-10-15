@@ -143,17 +143,23 @@
                 // errorMessageDiv.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
                 showErrorMessage('Invalid User ID or Password. Please try again.');
                 
-                // Clear the password field for security
-                passwordInput.value = '';
-            }
-        });
-        
-        // Focus on the User ID field on load
-        window.onload = () => {
+            window.onload = () => {
+        // If logged in already → redirect to homepage
+        if (sessionStorage.getItem('isLoggedIn') === 'true') {
+            window.location.replace(HOMEPAGE_URL);
+        } else {
+            // Clear any stored login state
             sessionStorage.clear();
             localStorage.clear();
             userIdInput.focus();
+        }
+
+        // Disable browser back/forward navigation cache
+        window.history.pushState(null, '', window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, '', window.location.href);
         };
+    };
 
     </script>
 
