@@ -150,6 +150,8 @@
         
         // Focus on the User ID field on load
         window.onload = () => {
+            sessionStorage.clear();
+            localStorage.clear();
             userIdInput.focus();
         };
 
